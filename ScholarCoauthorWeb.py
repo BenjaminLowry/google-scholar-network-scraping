@@ -43,9 +43,6 @@ def find_coauthors(links):
 
     for link in links:
 
-        if link == links[-1]:
-            print("yeah")
-
         link_string = str(link)
         link_string = link_string.replace("[", "")
         link_string = link_string.replace("]", "")
@@ -121,8 +118,6 @@ def find_coauthors(links):
 def create_graph():
 
     graph: igraph.Graph = igraph.Graph.Read_Ncol("new_list.txt", directed=False)
-    ##graph1, graph2 = graph.bipartite_projection(False, True, -1, "both")
-
     graph: igraph.Graph = igraph.Graph.simplify(graph)
 
     graph.vs["color"] = "#75546E"
@@ -132,7 +127,7 @@ def create_graph():
     vert["size"] = 40
     vert["label_size"] = 18
 
-    layout = graph.layout("fr").fit_into((200, 600), False)
+    layout = graph.layout("fr")
 
     igraph.plot(graph, "finished.png", layout=layout, bbox=(1200, 600))
 
@@ -247,13 +242,6 @@ class Paper(object):
         self.title = title
 
 
-'''
-def add_coauthors(coauthors):
-
-    for coauthor in coauthors:
-'''
-
-
 def find_alternate_name(name):
 
     name_chunks = str(name).split()
@@ -297,29 +285,11 @@ def find_initials(name_list):
 
     return initial_string
 
-'''
-coauthor = Coauthor("Paul Benjamin Lowry", None)
-print(coauthor.is_a_match("PB Lowry"))
-print(coauthor.initials)
 
-coauthor2 = Coauthor(None, "PB Lowry")
-print(coauthor.is_a_match("Paul Benjamin Lowry"))
-print(coauthor.full_name)
-print(coauthor.is_a_match("Paul Benjamin Lowry"))
-'''
+links = get_article_links("https://scholar.google.com.hk/citations?hl=en&user=1UL3-ocAAAAJ")
+coauthors_list = find_coauthors(links)
 
-##print(find_alternate_name("Paul Benjamin Lowry"))
-
-
-##links = get_article_links("https://scholar.google.com.hk/citations?hl=en&user=1UL3-ocAAAAJ")
-print("what")
-##print(links)
-##coauthors_list = find_coauthors(links)
-##create_txt_file(coauthors_list)
-
-
-
-##create_new_list(coauthors_list)
+create_new_list(coauthors_list)
 create_graph()
 
 
